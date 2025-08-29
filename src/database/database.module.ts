@@ -2,7 +2,8 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { DatabaseConfig, dbConfig } from "./database.config";
-
+import * as dotenv from "dotenv";
+dotenv.config();
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
