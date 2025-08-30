@@ -1,6 +1,6 @@
 # E-Commerse
 
-## 목차
+### 목차
 1. API 명세서
 2. ERD
 3. 인프라 구성도
@@ -22,3 +22,5 @@
 ## 3. 인프라 구성도
 
 <img width="791" height="416" alt="Image" src="https://github.com/user-attachments/assets/d9728baf-0a8a-403d-81f6-3a4df994c22d" />
+
+
