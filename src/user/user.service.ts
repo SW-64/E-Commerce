@@ -1,26 +1,36 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
+import { InjectRepository } from "@nestjs/typeorm";
+import { User } from "./entities/user.entity";
+import { Repository } from "typeorm";
 
 @Injectable()
 export class UserService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
-  }
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>
+  ) {}
+  // 잔액 충전 기능
+  async chargeBalance(amount: number, userId: number) {
+    const existedUser = await this.userRepository.findOne({
+      where: { user_id: userId },
+    });
+    if (!existedUser) {
+      throw new NotFoundException("User not found");
+    }
+    const newBalance = existedUser.balance + amount;
+    await this.userRepository.update(userId, {
+      balance: newBalance,
+    });
 
-  findAll() {
-    return `This action returns all user`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
-
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+    const updatedUser = await this.userRepository.findOne({
+      where: { user_id: userId },
+      select: {
+        user_id: true,
+        balance: true,
+      },
+    });
+    return updatedUser;
   }
 }
