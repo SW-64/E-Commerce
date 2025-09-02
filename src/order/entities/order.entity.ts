@@ -20,29 +20,29 @@ export enum OrderStatus {
 @Entity("orders") // 'order'는 예약어 이슈 가능성 → 복수형 권장
 export class Order {
   @PrimaryGeneratedColumn()
-  order_id: number;
-
-  @ManyToOne(() => User, (user) => user.orders, { nullable: false })
-  user: User;
+  orderId: number;
 
   @Column({ type: "enum", enum: OrderStatus, default: OrderStatus.PENDING })
   status: OrderStatus;
 
   @Column({ type: "int" })
-  total_amount: number;
+  totalAmount: number;
 
   @Column({ type: "int", default: 0 })
-  discount_amount: number;
+  discountAmount: number;
 
   @Column({ type: "int", default: 0 })
-  paid_amount: number;
+  paidAmount: number;
 
   @CreateDateColumn({ type: "timestamp" })
-  created_at: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({ type: "timestamp" })
-  updated_at: Date;
+  updatedAt: Date;
 
-  @OneToMany(() => OrderItem, (order_items) => order_items.order)
-  order_items: OrderItem[];
+  @OneToMany(() => OrderItem, (orderItems) => orderItems.order)
+  orderItems: OrderItem[];
+
+  @ManyToOne(() => User, (user) => user.orders, { nullable: false })
+  user: User;
 }

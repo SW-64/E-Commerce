@@ -11,7 +11,7 @@ import { OrderItem } from "src/order-item/entities/order-item.entity";
 @Entity("products")
 export class Product {
   @PrimaryGeneratedColumn()
-  product_id: number;
+  productId: number;
 
   @Column({ type: "varchar", length: 100 })
   name: string;
@@ -23,11 +23,11 @@ export class Product {
   stock: number;
 
   @CreateDateColumn({ type: "timestamp" })
-  created_at: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({ type: "timestamp" })
-  updated_at: Date;
+  updatedAt: Date;
 
-  @OneToMany(() => OrderItem, (order_items) => order_items.product)
-  order_items: OrderItem[];
+  @OneToMany(() => OrderItem, (orderItems) => orderItems.product)
+  orderItems: OrderItem[];
 }

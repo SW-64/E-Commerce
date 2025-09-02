@@ -12,7 +12,7 @@ import { UserCoupon } from "src/user-coupon/entities/user-coupon.entity";
 @Entity("users")
 export class User {
   @PrimaryGeneratedColumn()
-  user_id: number;
+  userId: number;
 
   @Column({ type: "varchar", length: 100 })
   name: string;
@@ -21,14 +21,14 @@ export class User {
   balance: number;
 
   @CreateDateColumn({ type: "timestamp" })
-  created_at: Date;
+  createdAt: Date;
 
   @UpdateDateColumn({ type: "timestamp" })
-  updated_at: Date;
+  updatedAt: Date;
 
   @OneToMany(() => Order, (order) => order.user)
   orders: Order[];
 
   @OneToMany(() => UserCoupon, (uc) => uc.user)
-  user_coupons: UserCoupon[];
+  userCoupons: UserCoupon[];
 }

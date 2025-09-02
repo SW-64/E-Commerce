@@ -12,20 +12,20 @@ import { Coupon } from "src/coupon/entities/coupon.entity";
 @Entity("user_coupons")
 export class UserCoupon {
   @PrimaryGeneratedColumn()
-  user_coupon_id: number;
-
-  @ManyToOne(() => User, (user) => user.user_coupons, { nullable: false })
-  user: User;
-
-  @ManyToOne(() => Coupon, (coupon) => coupon.user_coupons, { nullable: false })
-  coupon: Coupon;
+  userCouponId: number;
 
   @Column({ type: "timestamp", nullable: true })
-  used_at: Date | null;
+  usedAt: Date | null;
 
   @DeleteDateColumn({ type: "timestamp", nullable: true })
-  deleted_at: Date | null;
+  deletedAt: Date | null;
 
   @CreateDateColumn({ type: "timestamp" })
-  created_at: Date;
+  createdAt: Date;
+
+  @ManyToOne(() => User, (user) => user.userCoupons, { nullable: false })
+  user: User;
+
+  @ManyToOne(() => Coupon, (coupon) => coupon.userCoupons, { nullable: false })
+  coupon: Coupon;
 }
