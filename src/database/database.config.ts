@@ -16,6 +16,6 @@ export const dbConfig = () => ({
     database: process.env.DB_DATABASE || "dbname",
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD || "pw",
-    logging: process.env.DB_LOGGING_ENABLED == "true" || false,
-  } as DatabaseConfig,
+    logging: process.env.DB_LOGGING_ENABLED == "true" || true,
+  },
 });

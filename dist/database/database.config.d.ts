@@ -7,5 +7,12 @@ export interface DatabaseConfig {
     logging: boolean;
 }
 export declare const dbConfig: () => {
-    database: DatabaseConfig;
+    database: {
+        host: string;
+        port: string | number;
+        database: string;
+        username: string;
+        password: string;
+        logging: true;
+    };
 };
