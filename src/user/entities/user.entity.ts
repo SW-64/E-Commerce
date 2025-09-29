@@ -6,7 +6,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { Order } from "src/order/entities/order.entity";
+import { Order } from "src/order/domain/entities/order.entity";
 import { UserCoupon } from "src/user-coupon/entities/user-coupon.entity";
 
 @Entity("users")

@@ -7,7 +7,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "src/user/entities/user.entity";
 import { DataSource, In, MoreThanOrEqual, Repository } from "typeorm";
 import { Product } from "src/product/entities/product.entity";
-import { Order, OrderStatus } from "./entities/order.entity";
+import { Order, OrderStatus } from "./domain/entities/order.entity";
 import { OrderItem } from "src/order-item/entities/order-item.entity";
 
 @Injectable()

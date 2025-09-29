@@ -8,8 +8,8 @@ import {
   Delete,
   ParseIntPipe,
 } from "@nestjs/common";
-import { OrderService } from "./order.service";
-import { CreateOrderDto } from "./dto/create-order.dto";
+import { OrderService } from "src/order/order.service";
+import { CreateOrderDto } from "src/order/dto/create-order.dto";
 
 @Controller("/users/:userId/order")
 export class OrderController {
