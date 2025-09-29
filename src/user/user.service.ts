@@ -14,7 +14,7 @@ export class UserService {
   // 잔액 충전 기능
   async chargeBalance(amount: number, userId: number) {
     const existedUser = await this.userRepository.findOne({
-      where: { user_id: userId },
+      where: { userId: userId },
     });
     if (!existedUser) {
       throw new NotFoundException("User not found");
@@ -25,9 +25,9 @@ export class UserService {
     });
 
     const updatedUser = await this.userRepository.findOne({
-      where: { user_id: userId },
+      where: { userId: userId },
       select: {
-        user_id: true,
+        userId: true,
         balance: true,
       },
     });

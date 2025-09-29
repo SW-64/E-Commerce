@@ -20,8 +20,7 @@ export class OrderController {
     @Body() createOrderDto: CreateOrderDto,
     @Param("userId", ParseIntPipe) userId: number
   ) {
-    const items = createOrderDto;
-    const result = await this.orderService.create(userId, items);
+    const result = await this.orderService.create(userId, createOrderDto.items);
     return result;
   }
 }

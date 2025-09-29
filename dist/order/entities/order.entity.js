@@ -26,39 +26,39 @@ exports.Order = Order;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], Order.prototype, "order_id", void 0);
-__decorate([
-    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.orders, { nullable: false }),
-    __metadata("design:type", user_entity_1.User)
-], Order.prototype, "user", void 0);
+], Order.prototype, "orderId", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "enum", enum: OrderStatus, default: OrderStatus.PENDING }),
     __metadata("design:type", String)
 ], Order.prototype, "status", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "int" }),
+    (0, typeorm_1.Column)({ type: "int", default: 0 }),
     __metadata("design:type", Number)
-], Order.prototype, "total_amount", void 0);
+], Order.prototype, "totalAmount", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "int", default: 0 }),
     __metadata("design:type", Number)
-], Order.prototype, "discount_amount", void 0);
+], Order.prototype, "discountAmount", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "int", default: 0 }),
     __metadata("design:type", Number)
-], Order.prototype, "paid_amount", void 0);
+], Order.prototype, "paidAmount", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)({ type: "timestamp" }),
     __metadata("design:type", Date)
-], Order.prototype, "created_at", void 0);
+], Order.prototype, "createdAt", void 0);
 __decorate([
     (0, typeorm_1.UpdateDateColumn)({ type: "timestamp" }),
     __metadata("design:type", Date)
-], Order.prototype, "updated_at", void 0);
+], Order.prototype, "updatedAt", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => order_item_entity_1.OrderItem, (order_items) => order_items.order),
+    (0, typeorm_1.OneToMany)(() => order_item_entity_1.OrderItem, (orderItems) => orderItems.order),
     __metadata("design:type", Array)
-], Order.prototype, "order_items", void 0);
+], Order.prototype, "orderItems", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.orders, { nullable: false }),
+    __metadata("design:type", user_entity_1.User)
+], Order.prototype, "user", void 0);
 exports.Order = Order = __decorate([
     (0, typeorm_1.Entity)("orders")
 ], Order);

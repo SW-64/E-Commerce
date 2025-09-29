@@ -28,11 +28,59 @@ let OrderService = class OrderService {
         this.orderItemRepository = orderItemRepository;
     }
     async create(userId, items) {
-        const user = await this.userRepository.findOne({
-            where: userId,
+        const merged = new Map();
+        for (const { productId, quantity } of items) {
+            merged.set(productId, merged.get(productId) + quantity);
+        }
+        const productIds = [...merged.keys()];
+        const products = await this.productRepository.find({
+            where: { productId: (0, typeorm_2.In)(productIds) },
+            select: { productId: true, name: true, price: true, stock: true },
         });
-        const products = await this.productRepository.findOne(items.map((item) => item.productId));
-        console.log(products);
+        let payment = 0;
+        for (const product of products) {
+            const qty = merged.get(product.productId);
+            console.log("qty : ", qty);
+            if (product.stock < qty) {
+                throw new common_1.BadRequestException(`Not enough stock: ${product.name}`);
+            }
+            payment += product.price * qty;
+        }
+        const user = await this.userRepository.findOne({
+            where: { userId },
+            select: { userId: true, balance: true },
+        });
+        if (!user) {
+            throw new common_1.NotFoundException("User not found");
+        }
+        if (user.balance < payment) {
+            throw new common_1.BadRequestException("User balance is not enough");
+        }
+        for (const item of items) {
+            const product = await this.productRepository.findOne({
+                where: {
+                    productId: item.productId,
+                },
+                select: {
+                    productId: true,
+                    name: true,
+                    price: true,
+                    stock: true,
+                },
+            });
+            if (!product) {
+                throw new common_1.NotFoundException(`Product with ID ${item.productId} not found`);
+            }
+            const updatedProductStock = product.stock - item.quantity;
+            if (updatedProductStock < 0) {
+                throw new common_1.BadRequestException(`Not enough stock for product with ID ${item.productId}`);
+            }
+            await this.productRepository.update(product.productId, {
+                stock: updatedProductStock,
+            });
+            const productAllPrice = product.price * item.quantity;
+            payment += productAllPrice;
+        }
     }
 };
 exports.OrderService = OrderService;

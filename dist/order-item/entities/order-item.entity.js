@@ -19,17 +19,7 @@ exports.OrderItem = OrderItem;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], OrderItem.prototype, "order_items_id", void 0);
-__decorate([
-    (0, typeorm_1.ManyToOne)(() => order_entity_1.Order, (order) => order.order_items, { nullable: false }),
-    __metadata("design:type", order_entity_1.Order)
-], OrderItem.prototype, "order", void 0);
-__decorate([
-    (0, typeorm_1.ManyToOne)(() => product_entity_1.Product, (product) => product.order_items, {
-        nullable: false,
-    }),
-    __metadata("design:type", product_entity_1.Product)
-], OrderItem.prototype, "product", void 0);
+], OrderItem.prototype, "orderItemId", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "int" }),
     __metadata("design:type", Number)
@@ -37,15 +27,25 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ type: "int" }),
     __metadata("design:type", Number)
-], OrderItem.prototype, "unit_price", void 0);
+], OrderItem.prototype, "unitPrice", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)({ type: "timestamp" }),
     __metadata("design:type", Date)
-], OrderItem.prototype, "created_at", void 0);
+], OrderItem.prototype, "createdAt", void 0);
 __decorate([
     (0, typeorm_1.UpdateDateColumn)({ type: "timestamp" }),
     __metadata("design:type", Date)
-], OrderItem.prototype, "updated_at", void 0);
+], OrderItem.prototype, "updatedAt", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => order_entity_1.Order, (order) => order.orderItems, { nullable: false }),
+    __metadata("design:type", order_entity_1.Order)
+], OrderItem.prototype, "order", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => product_entity_1.Product, (product) => product.orderItems, {
+        nullable: false,
+    }),
+    __metadata("design:type", product_entity_1.Product)
+], OrderItem.prototype, "product", void 0);
 exports.OrderItem = OrderItem = __decorate([
     (0, typeorm_1.Entity)("order_items")
 ], OrderItem);

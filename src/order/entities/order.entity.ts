@@ -25,7 +25,7 @@ export class Order {
   @Column({ type: "enum", enum: OrderStatus, default: OrderStatus.PENDING })
   status: OrderStatus;
 
-  @Column({ type: "int" })
+  @Column({ type: "int", default: 0 })
   totalAmount: number;
 
   @Column({ type: "int", default: 0 })

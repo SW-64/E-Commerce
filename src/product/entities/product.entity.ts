@@ -10,7 +10,7 @@ import { OrderItem } from "src/order-item/entities/order-item.entity";
 
 @Entity("products")
 export class Product {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ name: "product_id" })
   productId: number;
 
   @Column({ type: "varchar", length: 100 })

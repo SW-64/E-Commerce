@@ -19,27 +19,27 @@ exports.UserCoupon = UserCoupon;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], UserCoupon.prototype, "user_coupon_id", void 0);
-__decorate([
-    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.user_coupons, { nullable: false }),
-    __metadata("design:type", user_entity_1.User)
-], UserCoupon.prototype, "user", void 0);
-__decorate([
-    (0, typeorm_1.ManyToOne)(() => coupon_entity_1.Coupon, (coupon) => coupon.user_coupons, { nullable: false }),
-    __metadata("design:type", coupon_entity_1.Coupon)
-], UserCoupon.prototype, "coupon", void 0);
+], UserCoupon.prototype, "userCouponId", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "timestamp", nullable: true }),
     __metadata("design:type", Date)
-], UserCoupon.prototype, "used_at", void 0);
+], UserCoupon.prototype, "usedAt", void 0);
 __decorate([
     (0, typeorm_1.DeleteDateColumn)({ type: "timestamp", nullable: true }),
     __metadata("design:type", Date)
-], UserCoupon.prototype, "deleted_at", void 0);
+], UserCoupon.prototype, "deletedAt", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)({ type: "timestamp" }),
     __metadata("design:type", Date)
-], UserCoupon.prototype, "created_at", void 0);
+], UserCoupon.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.userCoupons, { nullable: false }),
+    __metadata("design:type", user_entity_1.User)
+], UserCoupon.prototype, "user", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => coupon_entity_1.Coupon, (coupon) => coupon.userCoupons, { nullable: false }),
+    __metadata("design:type", coupon_entity_1.Coupon)
+], UserCoupon.prototype, "coupon", void 0);
 exports.UserCoupon = UserCoupon = __decorate([
     (0, typeorm_1.Entity)("user_coupons")
 ], UserCoupon);

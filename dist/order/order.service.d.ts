@@ -9,5 +9,8 @@ export declare class OrderService {
     private readonly orderRepository;
     private readonly orderItemRepository;
     constructor(userRepository: Repository<User>, productRepository: Repository<Product>, orderRepository: Repository<Order>, orderItemRepository: Repository<OrderItem>);
-    create(userId: any, items: any): Promise<void>;
+    create(userId: number, items: {
+        productId: number;
+        quantity: number;
+    }[]): Promise<void>;
 }

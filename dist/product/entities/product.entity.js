@@ -16,9 +16,9 @@ let Product = class Product {
 };
 exports.Product = Product;
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)(),
+    (0, typeorm_1.PrimaryGeneratedColumn)({ name: "product_id" }),
     __metadata("design:type", Number)
-], Product.prototype, "product_id", void 0);
+], Product.prototype, "productId", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "varchar", length: 100 }),
     __metadata("design:type", String)
@@ -34,15 +34,15 @@ __decorate([
 __decorate([
     (0, typeorm_1.CreateDateColumn)({ type: "timestamp" }),
     __metadata("design:type", Date)
-], Product.prototype, "created_at", void 0);
+], Product.prototype, "createdAt", void 0);
 __decorate([
     (0, typeorm_1.UpdateDateColumn)({ type: "timestamp" }),
     __metadata("design:type", Date)
-], Product.prototype, "updated_at", void 0);
+], Product.prototype, "updatedAt", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => order_item_entity_1.OrderItem, (order_items) => order_items.product),
+    (0, typeorm_1.OneToMany)(() => order_item_entity_1.OrderItem, (orderItems) => orderItems.product),
     __metadata("design:type", Array)
-], Product.prototype, "order_items", void 0);
+], Product.prototype, "orderItems", void 0);
 exports.Product = Product = __decorate([
     (0, typeorm_1.Entity)("products")
 ], Product);

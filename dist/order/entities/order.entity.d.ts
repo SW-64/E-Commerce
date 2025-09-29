@@ -7,13 +7,13 @@ export declare enum OrderStatus {
     REFUNDED = "REFUNDED"
 }
 export declare class Order {
-    order_id: number;
-    user: User;
+    orderId: number;
     status: OrderStatus;
-    total_amount: number;
-    discount_amount: number;
-    paid_amount: number;
-    created_at: Date;
-    updated_at: Date;
-    order_items: OrderItem[];
+    totalAmount: number;
+    discountAmount: number;
+    paidAmount: number;
+    createdAt: Date;
+    updatedAt: Date;
+    orderItems: OrderItem[];
+    user: User;
 }

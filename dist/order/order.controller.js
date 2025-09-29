@@ -21,8 +21,7 @@ let OrderController = class OrderController {
         this.orderService = orderService;
     }
     async create(createOrderDto, userId) {
-        const items = createOrderDto;
-        const result = await this.orderService.create(userId, items);
+        const result = await this.orderService.create(userId, createOrderDto.items);
         return result;
     }
 };

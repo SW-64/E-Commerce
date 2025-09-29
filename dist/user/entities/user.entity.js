@@ -19,7 +19,7 @@ exports.User = User;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], User.prototype, "user_id", void 0);
+], User.prototype, "userId", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "varchar", length: 100 }),
     __metadata("design:type", String)
@@ -31,11 +31,11 @@ __decorate([
 __decorate([
     (0, typeorm_1.CreateDateColumn)({ type: "timestamp" }),
     __metadata("design:type", Date)
-], User.prototype, "created_at", void 0);
+], User.prototype, "createdAt", void 0);
 __decorate([
     (0, typeorm_1.UpdateDateColumn)({ type: "timestamp" }),
     __metadata("design:type", Date)
-], User.prototype, "updated_at", void 0);
+], User.prototype, "updatedAt", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => order_entity_1.Order, (order) => order.user),
     __metadata("design:type", Array)
@@ -43,7 +43,7 @@ __decorate([
 __decorate([
     (0, typeorm_1.OneToMany)(() => user_coupon_entity_1.UserCoupon, (uc) => uc.user),
     __metadata("design:type", Array)
-], User.prototype, "user_coupons", void 0);
+], User.prototype, "userCoupons", void 0);
 exports.User = User = __decorate([
     (0, typeorm_1.Entity)("users")
 ], User);

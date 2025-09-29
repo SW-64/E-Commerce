@@ -23,7 +23,7 @@ let UserService = class UserService {
     }
     async chargeBalance(amount, userId) {
         const existedUser = await this.userRepository.findOne({
-            where: { user_id: userId },
+            where: { userId: userId },
         });
         if (!existedUser) {
             throw new common_1.NotFoundException("User not found");
@@ -33,9 +33,9 @@ let UserService = class UserService {
             balance: newBalance,
         });
         const updatedUser = await this.userRepository.findOne({
-            where: { user_id: userId },
+            where: { userId: userId },
             select: {
-                user_id: true,
+                userId: true,
                 balance: true,
             },
         });
