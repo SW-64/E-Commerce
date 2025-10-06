@@ -6,11 +6,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { Order } from "src/order/domain/entities/order.entity";
+import { OrderEntity } from "src/order/adapter/out/order.entity";
 import { UserCoupon } from "src/user-coupon/entities/user-coupon.entity";
 
 @Entity("users")
-export class User {
+export class UserEntity {
   @PrimaryGeneratedColumn()
   userId: number;
 
@@ -26,8 +26,8 @@ export class User {
   @UpdateDateColumn({ type: "timestamp" })
   updatedAt: Date;
 
-  @OneToMany(() => Order, (order) => order.user)
-  orders: Order[];
+  @OneToMany(() => OrderEntity, (order) => order.user)
+  orders: OrderEntity[];
 
   @OneToMany(() => UserCoupon, (uc) => uc.user)
   userCoupons: UserCoupon[];
