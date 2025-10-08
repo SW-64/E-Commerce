@@ -1,5 +1,12 @@
 import { Order } from "../../domain/order";
-
+export type OrderView = {
+  orderId: number;
+  userId: number;
+  status: string;
+  totalAmount: number;
+  paidAmount: number;
+  items: { productId: number; quantity: number; unitPrice: number }[];
+};
 export interface OrderRepositoryPort {
   // Order 데이터 저장
   save(order: Order): Promise<{ orderId: number }>;
@@ -11,5 +18,5 @@ export interface OrderRepositoryPort {
   ): Promise<void>;
 
   // ID로 Order 조회
-  findById(orderId: number): Promise<Order | null>;
+  findById(orderId: number): Promise<OrderView  | null>;
 }

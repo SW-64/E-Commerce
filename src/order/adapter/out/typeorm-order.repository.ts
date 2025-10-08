@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
 import { OrderEntity, OrderStatus } from "./order.entity";
-import { OrderRepositoryPort } from "src/order/port/out/order.repository";
+import { OrderRepositoryPort, OrderView } from "src/order/port/out/order.repository";
 import { Order } from "../../domain/order";
 
 export class TypeOrmOrderRepository implements OrderRepositoryPort {
@@ -26,20 +26,20 @@ export class TypeOrmOrderRepository implements OrderRepositoryPort {
     await this.repo.update(orderId, { status: OrderStatus[status] });
   }
 
-  async findById(orderId: number): Promise<Order | null> {
-    const entity = await this.repo.findOne({ where: { orderId } });
-    if (!entity) return null;
-    return new Order(
-      entity.user.userId,
-      entity.items.map((i) => ({
+    async findById(id: number): Promise<OrderView | null> {
+    const e = await this.repo.findOne({ where: { orderId: id }, relations: ['user','items']});
+    if (!e) return null;
+    return {
+      orderId: e.orderId,
+      userId: e.user.userId,
+      status: e.status,
+      totalAmount: e.totalAmount,
+      paidAmount: e.paidAmount,
+      items: e.items.map(i => ({
         productId: i.productId,
         quantity: i.quantity,
         unitPrice: i.unitPrice,
       })),
-      entity.status,
-      entity.totalAmount,
-      entity.paidAmount,
-      entity.orderId
-    ); 
+    };
   }
 }
