@@ -1,5 +1,5 @@
 // usecase/order.service.ts
-import { Inject, Injectable } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import {
   CreateOrderUseCase,
   CreateOrderCommand,
@@ -30,14 +30,14 @@ export class OrderService implements CreateOrderUseCase {
     const ids = Array.from(new Set(cmd.items.map((i) => i.productId)));
     const snaps = await this.products.findByIds(ids);
     if (snaps.length !== ids.length) {
-      throw new Error("One or more products not found");
+      throw new NotFoundException("One or more products not found");
     }
 
     // 2) 도메인에 필요한 형식으로 아이템 구성 (quantity + unitPrice)
     const quantityMap = new Map<number, number>();
     for (const { productId, quantity } of cmd.items) {
       if (!Number.isInteger(quantity) || quantity <= 0) {
-        throw new Error("Invalid quantity");
+        throw new BadRequestException("Invalid quantity");
       }
       quantityMap.set(productId, (quantityMap.get(productId) ?? 0) + quantity);
     }
@@ -61,7 +61,7 @@ export class OrderService implements CreateOrderUseCase {
         }))
       );
 
-      // 사용자 잔액 차감 (조건부 업데이트)
+      // 사용자 잔액 차감
       await tx.users.decrementIfEnough(order.userId, order.paidAmount);
 
       // 주문 저장
