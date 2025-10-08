@@ -29,17 +29,6 @@ export class TypeOrmOrderRepository implements OrderRepositoryPort {
     async findById(id: number): Promise<OrderView | null> {
     const e = await this.repo.findOne({ where: { orderId: id }, relations: ['user','items']});
     if (!e) return null;
-    return {
-      orderId: e.orderId,
-      userId: e.user.userId,
-      status: e.status,
-      totalAmount: e.totalAmount,
-      paidAmount: e.paidAmount,
-      items: e.items.map(i => ({
-        productId: i.productId,
-        quantity: i.quantity,
-        unitPrice: i.unitPrice,
-      })),
-    };
+    return e
   }
 }
