@@ -1,0 +1,34 @@
+import { Repository } from "typeorm";
+import { OrderEntity, OrderStatus } from "./order.entity";
+import { OrderRepositoryPort, OrderView } from "src/order/port/out/order.repository";
+import { Order } from "../../domain/order";
+
+export class TypeOrmOrderRepository implements OrderRepositoryPort {
+  constructor(private readonly repo: Repository<OrderEntity>) {}
+
+  async save(order: Order): Promise<{ orderId: number }> {
+    const savedOrder = await this.repo.save({
+      totalAmount: order.totalAmount,
+      paidAmount: order.totalAmount,
+      status: OrderStatus.PENDING,
+      user: {
+        userId: order.userId,
+      },
+    });
+
+    return { orderId: savedOrder.orderId };
+  }
+
+  async updateStatus(
+    orderId: number,
+    status: "PENDING" | "PAID" | "CANCELED"
+  ): Promise<void> {
+    await this.repo.update(orderId, { status: OrderStatus[status] });
+  }
+
+    async findById(id: number): Promise<OrderView | null> {
+    const e = await this.repo.findOne({ where: { orderId: id }, relations: ['user','items']});
+    if (!e) return null;
+    return e
+  }
+}

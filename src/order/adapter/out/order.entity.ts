@@ -7,7 +7,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { User } from "src/user/entities/user.entity";
+import { UserEntity } from "src/user/entities/user.entity";
 import { OrderItem } from "src/order-item/entities/order-item.entity";
 
 export enum OrderStatus {
@@ -18,7 +18,7 @@ export enum OrderStatus {
 }
 
 @Entity("orders") // 'order'는 예약어 이슈 가능성 → 복수형 권장
-export class Order {
+export class OrderEntity {
   @PrimaryGeneratedColumn()
   orderId: number;
 
@@ -43,6 +43,6 @@ export class Order {
   @OneToMany(() => OrderItem, (orderItems) => orderItems.order)
   orderItems: OrderItem[];
 
-  @ManyToOne(() => User, (user) => user.orders, { nullable: false })
-  user: User;
+  @ManyToOne(() => UserEntity, (user) => user.orders, { nullable: false })
+  user: UserEntity;
 }

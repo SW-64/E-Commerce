@@ -9,7 +9,7 @@ import {
 import { OrderItem } from "src/order-item/entities/order-item.entity";
 
 @Entity("products")
-export class Product {
+export class ProductEntity {
   @PrimaryGeneratedColumn({ name: "product_id" })
   productId: number;
 
