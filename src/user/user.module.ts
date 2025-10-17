@@ -2,12 +2,12 @@ import { Module } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { UserController } from "./user.controller";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { User } from "./entities/user.entity";
-import { Order } from "src/order/domain/entities/order.entity";
+import { UserEntity } from "./entities/user.entity";
+import { OrderEntity } from "src/order/adapter/out/order.entity";
 import { UserCoupon } from "src/user-coupon/entities/user-coupon.entity";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Order, UserCoupon])],
+  imports: [TypeOrmModule.forFeature([UserEntity, OrderEntity, UserCoupon])],
   controllers: [UserController],
   providers: [UserService],
 })

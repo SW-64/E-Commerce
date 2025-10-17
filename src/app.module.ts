@@ -5,7 +5,7 @@ import { UserModule } from "./user/user.module";
 import { OrderItemModule } from "./order-item/order-item.module";
 import { UserCouponModule } from "./user-coupon/user-coupon.module";
 import { CouponModule } from "./coupon/coupon.module";
-import { OrderModule } from "./order/order.module";
+import { OrderModule } from "./order/module/order.module";
 
 @Module({
   imports: [

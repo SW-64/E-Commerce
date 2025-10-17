@@ -6,7 +6,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
 } from "typeorm";
-import { User } from "src/user/entities/user.entity";
+import { UserEntity } from "src/user/entities/user.entity";
 import { Coupon } from "src/coupon/entities/coupon.entity";
 
 @Entity("user_coupons")
@@ -23,8 +23,8 @@ export class UserCoupon {
   @CreateDateColumn({ type: "timestamp" })
   createdAt: Date;
 
-  @ManyToOne(() => User, (user) => user.userCoupons, { nullable: false })
-  user: User;
+  @ManyToOne(() => UserEntity, (user) => user.userCoupons, { nullable: false })
+  user: UserEntity;
 
   @ManyToOne(() => Coupon, (coupon) => coupon.userCoupons, { nullable: false })
   coupon: Coupon;

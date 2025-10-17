@@ -31,7 +31,6 @@ import { TypeOrmProductCatalogAdapter } from "../adapter/out/typeorm-product-cat
   controllers: [OrderController],
   providers: [
     OrderService,
-    Order,
     TypeOrmInventoryAdapter,
     TypeOrmOrderRepository,
     TypeOrmTransaction,
