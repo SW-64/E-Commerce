@@ -8,6 +8,8 @@ import { TypeOrmUserAccountAdapter } from "./typeorm-user-account.repository";
 import { OrderEntity } from "./order.entity";
 import { ProductEntity } from "src/product/entities/product.entity";
 import { UserEntity } from "src/user/entities/user.entity";
+import { TypeOrmOutboxAdapter } from "./typeorm-outbox.adapter";
+import { OutboxEntity } from "./outbox.entity";
 
 export class TypeOrmTransaction implements TransactionPort {
   constructor(private readonly ds: DataSource) {}
@@ -20,6 +22,7 @@ export class TypeOrmTransaction implements TransactionPort {
           manager.getRepository(ProductEntity)
         ),
         users: new TypeOrmUserAccountAdapter(manager.getRepository(UserEntity)),
+        outbox: new TypeOrmOutboxAdapter(manager.getRepository(OutboxEntity)),
       };
       return work(tx);
     });

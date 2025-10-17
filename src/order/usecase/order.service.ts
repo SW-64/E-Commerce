@@ -12,6 +12,7 @@ import {
 import { ProductCatalogPort } from "../port/out/product-catalog.port";
 import { Order } from "../domain/order";
 import { PRODUCT_CATALOG_PORT } from "./../port/out/product-catalog.port";
+import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class OrderService implements CreateOrderUseCase {
@@ -70,6 +71,21 @@ export class OrderService implements CreateOrderUseCase {
       // 상태 전환 → 저장
       order.markPaid();
       await tx.orders.updateStatus(orderId, order.status);
+
+       // Outbox 이벤트 기록 
+      await tx.outbox.save({
+        topic: 'order.created',
+        eventId: uuid(),
+        payload: {
+          occurredAt: new Date().toISOString(),
+          orderId,
+          userId: order.userId,
+          totalAmount: order.paidAmount,
+          status: order.status,
+          version: 1,
+          items: order.items.map(i => ({ productId: i.productId, quantity: i.quantity, unitPrice: i.unitPrice })),
+        },
+      });
 
       // 반환은 타입에 맞게 status 제외
       const res: CreateOrderResult = {
