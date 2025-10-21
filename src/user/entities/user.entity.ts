@@ -20,10 +20,10 @@ export class UserEntity {
   @Column({ type: "int", default: 0 })
   balance: number;
 
-  @CreateDateColumn({ type: "timestamp" })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({ type: "timestamp" })
+  @UpdateDateColumn()
   updatedAt: Date;
 
   @OneToMany(() => OrderEntity, (order) => order.user)

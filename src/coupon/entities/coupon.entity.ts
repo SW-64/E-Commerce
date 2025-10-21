@@ -19,10 +19,10 @@ export class Coupon {
   @Column({ type: "int", default: 0 })
   remainingCount: number;
 
-  @CreateDateColumn({ type: "timestamp" })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({ type: "timestamp" })
+  @UpdateDateColumn()
   updatedAt: Date;
 
   @OneToMany(() => UserCoupon, (uc) => uc.coupon)

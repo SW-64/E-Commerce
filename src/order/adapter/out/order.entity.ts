@@ -34,10 +34,10 @@ export class OrderEntity {
   @Column({ type: "int", default: 0 })
   paidAmount: number;
 
-  @CreateDateColumn({ type: "timestamp" })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({ type: "timestamp" })
+  @UpdateDateColumn()
   updatedAt: Date;
 
   @OneToMany(() => OrderItem, (orderItems) => orderItems.order)

@@ -14,13 +14,13 @@ export class UserCoupon {
   @PrimaryGeneratedColumn()
   userCouponId: number;
 
-  @Column({ type: "timestamp", nullable: true })
+  @Column({ nullable: true })
   usedAt: Date | null;
 
-  @DeleteDateColumn({ type: "timestamp", nullable: true })
+  @DeleteDateColumn({ nullable: true })
   deletedAt: Date | null;
 
-  @CreateDateColumn({ type: "timestamp" })
+  @CreateDateColumn({})
   createdAt: Date;
 
   @ManyToOne(() => UserEntity, (user) => user.userCoupons, { nullable: false })

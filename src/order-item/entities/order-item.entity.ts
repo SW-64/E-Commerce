@@ -21,10 +21,10 @@ export class OrderItem {
   @Column({ type: "int" })
   unitPrice: number; // 주문 시점 가격 스냅샷
 
-  @CreateDateColumn({ type: "timestamp" })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({ type: "timestamp" })
+  @UpdateDateColumn()
   updatedAt: Date;
 
   @ManyToOne(() => OrderEntity, (order) => order.orderItems, {
