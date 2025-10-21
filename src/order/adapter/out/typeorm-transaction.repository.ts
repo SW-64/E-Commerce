@@ -6,8 +6,8 @@ import { TypeOrmOrderRepository } from "./typeorm-order.repository";
 import { TypeOrmInventoryAdapter } from "./typeorm-inventory.repository";
 import { TypeOrmUserAccountAdapter } from "./typeorm-user-account.repository";
 import { OrderEntity } from "./order.entity";
-import { ProductEntity } from "src/product/entities/product.entity";
-import { UserEntity } from "src/user/entities/user.entity";
+import { ProductEntity } from "../../../../src/product/entities/product.entity";
+import { UserEntity } from "../../../../src/user/entities/user.entity";
 import { TypeOrmOutboxAdapter } from "./typeorm-outbox.adapter";
 import { OutboxEntity } from "./outbox.entity";
 

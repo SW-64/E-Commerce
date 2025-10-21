@@ -7,8 +7,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { UserEntity } from "src/user/entities/user.entity";
-import { OrderItem } from "src/order-item/entities/order-item.entity";
+import { UserEntity } from "../../../../src/user/entities/user.entity";
+import { OrderItem } from "../../../../src/order-item/entities/order-item.entity";
 
 export enum OrderStatus {
   PENDING = "PENDING",

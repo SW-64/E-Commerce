@@ -3,7 +3,7 @@ import { OrderEntity, OrderStatus } from "./order.entity";
 import {
   OrderRepositoryPort,
   OrderView,
-} from "src/order/port/out/order.repository";
+} from "../../../../src/order/port/out/order.repository";
 import { Order } from "../../domain/order";
 
 export class TypeOrmOrderRepository implements OrderRepositoryPort {

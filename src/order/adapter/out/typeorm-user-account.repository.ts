@@ -1,6 +1,6 @@
 // adapter/out/typeorm-user-account.adapter.ts
 import { Repository, MoreThanOrEqual } from "typeorm";
-import { UserEntity } from "src/user/entities/user.entity";
+import { UserEntity } from "../../../../src/user/entities/user.entity";
 import { UserAccountPort } from "../../port/out/user-account.port";
 
 export class TypeOrmUserAccountAdapter implements UserAccountPort {

@@ -1,7 +1,7 @@
 // adapter/out/typeorm-outbox.adapter.ts
-import { Repository } from 'typeorm';
-import { OutboxEntity, OutboxStatus } from './outbox.entity';
-import { OutboxPort } from 'src/order/port/out/outbox.port';
+import { Repository } from "typeorm";
+import { OutboxEntity, OutboxStatus } from "./outbox.entity";
+import { OutboxPort } from "../../../../src/order/port/out/outbox.port";
 
 export class TypeOrmOutboxAdapter implements OutboxPort {
   constructor(private readonly repo: Repository<OutboxEntity>) {}

@@ -6,13 +6,14 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { OrderEntity } from "src/order/adapter/out/order.entity";
-import { ProductEntity } from "src/product/entities/product.entity";
+import { OrderEntity } from "../../../src/order/adapter/out/order.entity";
+import { ProductEntity } from "../../../src/product/entities/product.entity";
 
 @Entity("order_items")
 export class OrderItem {
   @PrimaryGeneratedColumn()
   orderItemId: number;
+  s;
 
   @Column({ type: "int" })
   quantity: number;
@@ -26,7 +27,9 @@ export class OrderItem {
   @UpdateDateColumn({ type: "timestamp" })
   updatedAt: Date;
 
-  @ManyToOne(() => OrderEntity, (order) => order.orderItems, { nullable: false })
+  @ManyToOne(() => OrderEntity, (order) => order.orderItems, {
+    nullable: false,
+  })
   order: OrderEntity;
 
   @ManyToOne(() => ProductEntity, (product) => product.orderItems, {

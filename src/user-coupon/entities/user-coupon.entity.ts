@@ -6,8 +6,8 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
 } from "typeorm";
-import { UserEntity } from "src/user/entities/user.entity";
-import { Coupon } from "src/coupon/entities/coupon.entity";
+import { UserEntity } from "../../../src/user/entities/user.entity";
+import { Coupon } from "../../../src/coupon/entities/coupon.entity";
 
 @Entity("user_coupons")
 export class UserCoupon {

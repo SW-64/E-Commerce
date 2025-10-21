@@ -6,7 +6,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { OrderItem } from "src/order-item/entities/order-item.entity";
+import { OrderItem } from "../../../src/order-item/entities/order-item.entity";
 
 @Entity("products")
 export class ProductEntity {
