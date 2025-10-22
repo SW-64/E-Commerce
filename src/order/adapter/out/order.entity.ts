@@ -22,7 +22,11 @@ export class OrderEntity {
   @PrimaryGeneratedColumn()
   orderId: number;
 
-  @Column({ type: "enum", enum: OrderStatus, default: OrderStatus.PENDING })
+  @Column({
+    type: "simple-enum",
+    enum: OrderStatus,
+    default: OrderStatus.PENDING,
+  })
   status: OrderStatus;
 
   @Column({ type: "int", default: 0 })
