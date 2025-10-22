@@ -18,6 +18,7 @@ import { TRANSACTION_PORT } from "../port/out/transaction.port";
 import { PRODUCT_CATALOG_PORT } from "../port/out/product-catalog.port";
 import { TypeOrmProductCatalogAdapter } from "../adapter/out/typeorm-product-catalog.adapter";
 import { OutboxEntity } from "../adapter/out/outbox.entity";
+import { MESSAGE_PUBLISHER_PORT } from "../port/out/message-publisher.port";
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -43,6 +44,7 @@ import { OutboxEntity } from "../adapter/out/outbox.entity";
     },
     { provide: TRANSACTION_PORT, useClass: TypeOrmTransaction },
     { provide: PRODUCT_CATALOG_PORT, useClass: TypeOrmProductCatalogAdapter },
+    { provide: MESSAGE_PUBLISHER_PORT, useValue: { publish: async () => {} } },
   ],
 })
 export class OrderModule {}
