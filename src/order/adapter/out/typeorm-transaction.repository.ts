@@ -10,9 +10,15 @@ import { ProductEntity } from "../../../../src/product/entities/product.entity";
 import { UserEntity } from "../../../../src/user/entities/user.entity";
 import { TypeOrmOutboxAdapter } from "./typeorm-outbox.adapter";
 import { OutboxEntity } from "./outbox.entity";
+import { Injectable } from "@nestjs/common";
+import { InjectDataSource } from "@nestjs/typeorm";
 
+@Injectable()
 export class TypeOrmTransaction implements TransactionPort {
-  constructor(private readonly ds: DataSource) {}
+  constructor(
+    @InjectDataSource()
+    private readonly ds: DataSource
+  ) {}
 
   async withTransaction<T>(work: (tx: TxContext) => Promise<T>): Promise<T> {
     return this.ds.transaction(async (manager) => {
