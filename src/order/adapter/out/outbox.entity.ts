@@ -26,7 +26,7 @@ export class OutboxEntity {
   @Column({ length: 64 })
   eventId: string; // uuid
 
-  @Column({ type: "json" })
+  @Column({ type: "simple-json" })
   payload: unknown;
 
   @Index()

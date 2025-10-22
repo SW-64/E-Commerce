@@ -17,6 +17,7 @@ import { CREATE_ORDER_USECASE } from "../../../src/order/port/in/create-order.us
 import { TRANSACTION_PORT } from "../port/out/transaction.port";
 import { PRODUCT_CATALOG_PORT } from "../port/out/product-catalog.port";
 import { TypeOrmProductCatalogAdapter } from "../adapter/out/typeorm-product-catalog.adapter";
+import { OutboxEntity } from "../adapter/out/outbox.entity";
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -26,6 +27,7 @@ import { TypeOrmProductCatalogAdapter } from "../adapter/out/typeorm-product-cat
       Coupon,
       OrderItem,
       ProductEntity,
+      OutboxEntity,
     ]),
   ],
   controllers: [OrderController],
