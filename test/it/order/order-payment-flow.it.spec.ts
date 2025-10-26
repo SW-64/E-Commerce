@@ -83,7 +83,7 @@ describe("상품 주문 & 결제 - 전체 통합 (Integration)", () => {
     const outbox = await outboxRepo.find({
       where: { topic: "order.created" },
     });
-    console.log(outbox);
+
     expect(outbox.length).toBe(1);
     expect(outbox[0].payload).toMatchObject({
       orderId: res.orderId,
