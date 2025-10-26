@@ -28,7 +28,7 @@
     "@nestjs/platform-express": "^10.4.20",
     "@nestjs/typeorm": "^10.0.2",
     "class-transformer": "^0.5.1",
-    "dotenv": "^17.2.1",
+    "dotenv": "^17.2.3",
     "mysql2": "^3.9.2",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
