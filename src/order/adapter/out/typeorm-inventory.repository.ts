@@ -1,6 +1,6 @@
 // adapter/out/typeorm-inventory.adapter.ts
 import { Repository, MoreThanOrEqual } from "typeorm";
-import { ProductEntity } from "src/product/entities/product.entity";
+import { ProductEntity } from "../../../../src/product/entities/product.entity";
 import { InventoryPort } from "../../port/out/inventory.port";
 
 export class TypeOrmInventoryAdapter implements InventoryPort {

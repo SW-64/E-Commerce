@@ -6,13 +6,14 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { Order } from "src/order/domain/entities/order.entity";
-import { Product } from "src/product/entities/product.entity";
+import { OrderEntity } from "../../../src/order/adapter/out/order.entity";
+import { ProductEntity } from "../../../src/product/entities/product.entity";
 
 @Entity("order_items")
 export class OrderItem {
   @PrimaryGeneratedColumn()
   orderItemId: number;
+  s;
 
   @Column({ type: "int" })
   quantity: number;
@@ -20,17 +21,19 @@ export class OrderItem {
   @Column({ type: "int" })
   unitPrice: number; // 주문 시점 가격 스냅샷
 
-  @CreateDateColumn({ type: "timestamp" })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({ type: "timestamp" })
+  @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => Order, (order) => order.orderItems, { nullable: false })
-  order: Order;
-
-  @ManyToOne(() => Product, (product) => product.orderItems, {
+  @ManyToOne(() => OrderEntity, (order) => order.orderItems, {
     nullable: false,
   })
-  product: Product;
+  order: OrderEntity;
+
+  @ManyToOne(() => ProductEntity, (product) => product.orderItems, {
+    nullable: false,
+  })
+  product: ProductEntity;
 }

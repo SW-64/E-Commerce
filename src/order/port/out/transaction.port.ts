@@ -3,12 +3,14 @@
 import { OrderRepositoryPort } from "./order.repository";
 import { InventoryPort } from "./inventory.port";
 import { UserAccountPort } from "./user-account.port";
+import { OutboxPort } from "./outbox.port";
 
 // 트랜잭션 안에서 사용할 수 있는 Repository들의 모음집
 export interface TxContext {
   orders: OrderRepositoryPort;
   inventory: InventoryPort;
   users: UserAccountPort;
+  outbox: OutboxPort;
 }
 
 // TxContext을 하나의 트랜잭션 단위로 묶기 위한 포트

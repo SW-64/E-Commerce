@@ -7,8 +7,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { UserEntity } from "src/user/entities/user.entity";
-import { OrderItem } from "src/order-item/entities/order-item.entity";
+import { UserEntity } from "../../../../src/user/entities/user.entity";
+import { OrderItem } from "../../../../src/order-item/entities/order-item.entity";
 
 export enum OrderStatus {
   PENDING = "PENDING",
@@ -22,7 +22,11 @@ export class OrderEntity {
   @PrimaryGeneratedColumn()
   orderId: number;
 
-  @Column({ type: "enum", enum: OrderStatus, default: OrderStatus.PENDING })
+  @Column({
+    type: "simple-enum",
+    enum: OrderStatus,
+    default: OrderStatus.PENDING,
+  })
   status: OrderStatus;
 
   @Column({ type: "int", default: 0 })
@@ -34,10 +38,10 @@ export class OrderEntity {
   @Column({ type: "int", default: 0 })
   paidAmount: number;
 
-  @CreateDateColumn({ type: "timestamp" })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({ type: "timestamp" })
+  @UpdateDateColumn()
   updatedAt: Date;
 
   @OneToMany(() => OrderItem, (orderItems) => orderItems.order)

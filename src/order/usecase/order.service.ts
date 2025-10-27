@@ -1,5 +1,10 @@
 // usecase/order.service.ts
-import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import {
   CreateOrderUseCase,
   CreateOrderCommand,
@@ -12,12 +17,19 @@ import {
 import { ProductCatalogPort } from "../port/out/product-catalog.port";
 import { Order } from "../domain/order";
 import { PRODUCT_CATALOG_PORT } from "./../port/out/product-catalog.port";
+import { v4 as uuid } from "uuid";
+import {
+  MESSAGE_PUBLISHER_PORT,
+  MessagePublisherPort,
+} from "../port/out/message-publisher.port";
 
 @Injectable()
 export class OrderService implements CreateOrderUseCase {
   constructor(
     @Inject(TRANSACTION_PORT) private readonly transaction: TransactionPort,
-    @Inject(PRODUCT_CATALOG_PORT) private readonly products: ProductCatalogPort // 💡 가격 스냅샷 주입
+    @Inject(PRODUCT_CATALOG_PORT) private readonly products: ProductCatalogPort, // 💡 가격 스냅샷 주입
+    @Inject(MESSAGE_PUBLISHER_PORT)
+    private readonly publisher: MessagePublisherPort
   ) {}
 
   async execute(cmd: CreateOrderCommand): Promise<CreateOrderResult> {
@@ -71,6 +83,25 @@ export class OrderService implements CreateOrderUseCase {
       order.markPaid();
       await tx.orders.updateStatus(orderId, order.status);
 
+      // Outbox 이벤트 기록
+      await tx.outbox.save({
+        topic: "order.created",
+        eventId: uuid(),
+        payload: {
+          occurredAt: new Date().toISOString(),
+          orderId,
+          userId: order.userId,
+          totalAmount: order.paidAmount,
+          status: order.status,
+          version: 1,
+          items: order.items.map((i) => ({
+            productId: i.productId,
+            quantity: i.quantity,
+            unitPrice: i.unitPrice,
+          })),
+        },
+      });
+
       // 반환은 타입에 맞게 status 제외
       const res: CreateOrderResult = {
         orderId,
@@ -78,6 +109,14 @@ export class OrderService implements CreateOrderUseCase {
       };
       return res;
     });
+    try {
+      await this.publisher.publish("order.created", {
+        orderId: result.orderId,
+        userId: cmd.userId,
+      });
+    } catch (e) {
+      // this.logger?.warn?.('publish failed; fallback to outbox kept', e);
+    }
 
     return result;
   }

@@ -6,11 +6,19 @@ import { TypeOrmOrderRepository } from "./typeorm-order.repository";
 import { TypeOrmInventoryAdapter } from "./typeorm-inventory.repository";
 import { TypeOrmUserAccountAdapter } from "./typeorm-user-account.repository";
 import { OrderEntity } from "./order.entity";
-import { ProductEntity } from "src/product/entities/product.entity";
-import { UserEntity } from "src/user/entities/user.entity";
+import { ProductEntity } from "../../../../src/product/entities/product.entity";
+import { UserEntity } from "../../../../src/user/entities/user.entity";
+import { TypeOrmOutboxAdapter } from "./typeorm-outbox.adapter";
+import { OutboxEntity } from "./outbox.entity";
+import { Injectable } from "@nestjs/common";
+import { InjectDataSource } from "@nestjs/typeorm";
 
+@Injectable()
 export class TypeOrmTransaction implements TransactionPort {
-  constructor(private readonly ds: DataSource) {}
+  constructor(
+    @InjectDataSource()
+    private readonly ds: DataSource
+  ) {}
 
   async withTransaction<T>(work: (tx: TxContext) => Promise<T>): Promise<T> {
     return this.ds.transaction(async (manager) => {
@@ -20,6 +28,7 @@ export class TypeOrmTransaction implements TransactionPort {
           manager.getRepository(ProductEntity)
         ),
         users: new TypeOrmUserAccountAdapter(manager.getRepository(UserEntity)),
+        outbox: new TypeOrmOutboxAdapter(manager.getRepository(OutboxEntity)),
       };
       return work(tx);
     });

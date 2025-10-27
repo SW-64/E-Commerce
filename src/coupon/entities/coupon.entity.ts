@@ -6,7 +6,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { UserCoupon } from "src/user-coupon/entities/user-coupon.entity";
+import { UserCoupon } from "../../../src/user-coupon/entities/user-coupon.entity";
 
 @Entity("coupons")
 export class Coupon {
@@ -19,10 +19,10 @@ export class Coupon {
   @Column({ type: "int", default: 0 })
   remainingCount: number;
 
-  @CreateDateColumn({ type: "timestamp" })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({ type: "timestamp" })
+  @UpdateDateColumn()
   updatedAt: Date;
 
   @OneToMany(() => UserCoupon, (uc) => uc.coupon)

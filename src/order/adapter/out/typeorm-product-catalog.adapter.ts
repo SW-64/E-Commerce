@@ -1,7 +1,7 @@
 // adapter/out/typeorm-product-catalog.adapter.ts
 import { InjectRepository } from "@nestjs/typeorm";
 import { In, Repository } from "typeorm";
-import { ProductEntity } from "src/product/entities/product.entity";
+import { ProductEntity } from "../../../../src/product/entities/product.entity";
 import {
   ProductCatalogPort,
   ProductSnapshot,

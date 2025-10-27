@@ -6,7 +6,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { OrderItem } from "src/order-item/entities/order-item.entity";
+import { OrderItem } from "../../../src/order-item/entities/order-item.entity";
 
 @Entity("products")
 export class ProductEntity {
@@ -22,10 +22,10 @@ export class ProductEntity {
   @Column({ type: "int", default: 0 })
   stock: number;
 
-  @CreateDateColumn({ type: "timestamp" })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({ type: "timestamp" })
+  @UpdateDateColumn()
   updatedAt: Date;
 
   @OneToMany(() => OrderItem, (orderItems) => orderItems.product)

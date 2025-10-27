@@ -6,8 +6,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { OrderEntity } from "src/order/adapter/out/order.entity";
-import { UserCoupon } from "src/user-coupon/entities/user-coupon.entity";
+import { OrderEntity } from "../../../src/order/adapter/out/order.entity";
+import { UserCoupon } from "../../../src/user-coupon/entities/user-coupon.entity";
 
 @Entity("users")
 export class UserEntity {
@@ -20,10 +20,10 @@ export class UserEntity {
   @Column({ type: "int", default: 0 })
   balance: number;
 
-  @CreateDateColumn({ type: "timestamp" })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({ type: "timestamp" })
+  @UpdateDateColumn()
   updatedAt: Date;
 
   @OneToMany(() => OrderEntity, (order) => order.user)

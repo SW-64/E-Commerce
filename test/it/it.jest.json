@@ -1,11 +1,9 @@
 {
-  "moduleFileExtensions": ["js", "json", "ts"],
-  "rootDir": "../..",
+  "preset": "ts-jest",
   "testEnvironment": "node",
-  "testRegex": ".it.spec.ts$",
-  "transform": {
-    "^.+\\.(t|j)s$": "ts-jest"
-  },
-  "globalSetup": "./test/it/setup.ts",
-  "globalTeardown": "./test/it/down.ts"
+  "rootDir": "../..",
+  "testMatch": ["<rootDir>/test/it/**/*.it.spec.ts"],
+  "transform": { "^.+\\.(t|j)s$": "ts-jest" },
+  "moduleFileExtensions": ["ts", "js", "json"],
+  "verbose": true
 }
