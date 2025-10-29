@@ -11,10 +11,11 @@ import { UserEntity } from "../../../src/user/entities/user.entity";
 import { ProductEntity } from "../../../src/product/entities/product.entity";
 import { OrderEntity } from "../../../src/order/adapter/out/order.entity";
 import { OutboxEntity } from "../../../src/order/adapter/out/outbox.entity";
+import { TestingModule } from "@nestjs/testing";
 
 describe("재고 감소 동시성 제어 - 전체 통합 (Integration)", () => {
   let ds: DataSource;
-
+  let moduleRef: TestingModule;
   let authSvc: AuthService;
   let userSvc: UserService;
   let orderSvc: OrderService;
@@ -29,8 +30,9 @@ describe("재고 감소 동시성 제어 - 전체 통합 (Integration)", () => {
   let productId_B: number;
 
   beforeAll(async () => {
-    const { moduleRef, dataSource } = await createItModuleMySql();
-    ds = dataSource;
+    const setup = await createItModuleMySql();
+    moduleRef = setup.moduleRef;
+    ds = setup.dataSource;
 
     authSvc = moduleRef.get(AuthService);
     userSvc = moduleRef.get(UserService);
@@ -42,7 +44,12 @@ describe("재고 감소 동시성 제어 - 전체 통합 (Integration)", () => {
     orderRepo = moduleRef.get(getRepositoryToken(OrderEntity));
     outboxRepo = moduleRef.get(getRepositoryToken(OutboxEntity));
   });
-
+  afterAll(async () => {
+    if (ds?.isInitialized) {
+      await ds.destroy(); // DB 커넥션 풀 닫기
+    }
+    await moduleRef.close(); // Nest 컨테이너 / 내부 타이머 종료
+  });
   beforeEach(async () => {
     // 매 테스트 독립성 보장
     await ds.synchronize(true);
@@ -296,4 +303,14 @@ describe("재고 감소 동시성 제어 - 전체 통합 (Integration)", () => {
     const outboxRecords = await outboxRepo.find();
     expect(outboxRecords.length).toBe(0);
   });
+
+  // afterAll(async () => {
+  //   // 1) DB 커넥션 닫기
+  //   if (ds && ds.isInitialized) {
+  //     await ds.destroy();
+  //   }
+
+  //   // 2) Nest 모듈 닫기 (내부 provider 들의 onModuleDestroy / onApplicationShutdown를 호출하게 됨)
+  //   await moduleRef.close();
+  // });
 });

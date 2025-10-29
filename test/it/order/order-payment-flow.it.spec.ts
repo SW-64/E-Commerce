@@ -11,10 +11,11 @@ import { UserEntity } from "../../../src/user/entities/user.entity";
 import { ProductEntity } from "../../../src/product/entities/product.entity";
 import { OrderEntity } from "../../../src/order/adapter/out/order.entity";
 import { OutboxEntity } from "../../../src/order/adapter/out/outbox.entity";
+import { TestingModule } from "@nestjs/testing";
 
 describe("상품 주문 & 결제 - 전체 통합 (Integration)", () => {
   let ds: DataSource;
-
+  let moduleRef: TestingModule;
   let authSvc: AuthService;
   let userSvc: UserService;
   let orderSvc: OrderService;
@@ -28,8 +29,9 @@ describe("상품 주문 & 결제 - 전체 통합 (Integration)", () => {
   let productId: number;
 
   beforeAll(async () => {
-    const { moduleRef, dataSource } = await createItModule();
-    ds = dataSource;
+    const setup = await createItModule();
+    moduleRef = setup.moduleRef;
+    ds = setup.dataSource;
 
     authSvc = moduleRef.get(AuthService);
     userSvc = moduleRef.get(UserService);
@@ -40,6 +42,13 @@ describe("상품 주문 & 결제 - 전체 통합 (Integration)", () => {
     productRepo = moduleRef.get(getRepositoryToken(ProductEntity));
     orderRepo = moduleRef.get(getRepositoryToken(OrderEntity));
     outboxRepo = moduleRef.get(getRepositoryToken(OutboxEntity));
+  });
+
+  afterAll(async () => {
+    if (ds?.isInitialized) {
+      await ds.destroy(); // DB 커넥션 풀 닫기
+    }
+    await moduleRef.close(); // Nest 컨테이너 / 내부 타이머 종료
   });
 
   beforeEach(async () => {

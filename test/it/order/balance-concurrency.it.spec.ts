@@ -11,10 +11,11 @@ import { UserEntity } from "../../../src/user/entities/user.entity";
 import { ProductEntity } from "../../../src/product/entities/product.entity";
 import { OrderEntity } from "../../../src/order/adapter/out/order.entity";
 import { OutboxEntity } from "../../../src/order/adapter/out/outbox.entity";
+import { TestingModule } from "@nestjs/testing";
 
 describe("잔액 차감 동시성 제어 - 전체 통합 (Integration)", () => {
   let ds: DataSource;
-
+  let moduleRef: TestingModule;
   let authSvc: AuthService;
   let userSvc: UserService;
   let orderSvc: OrderService;
@@ -29,8 +30,9 @@ describe("잔액 차감 동시성 제어 - 전체 통합 (Integration)", () => {
   let productId_B: number;
 
   beforeAll(async () => {
-    const { moduleRef, dataSource } = await createItModuleMySql();
-    ds = dataSource;
+    const setup = await createItModuleMySql();
+    moduleRef = setup.moduleRef;
+    ds = setup.dataSource;
 
     authSvc = moduleRef.get(AuthService);
     userSvc = moduleRef.get(UserService);
@@ -42,7 +44,12 @@ describe("잔액 차감 동시성 제어 - 전체 통합 (Integration)", () => {
     orderRepo = moduleRef.get(getRepositoryToken(OrderEntity));
     outboxRepo = moduleRef.get(getRepositoryToken(OutboxEntity));
   });
-
+  afterAll(async () => {
+    if (ds?.isInitialized) {
+      await ds.destroy(); // DB 커넥션 풀 닫기
+    }
+    await moduleRef.close(); // Nest 컨테이너 / 내부 타이머 종료
+  });
   beforeEach(async () => {
     // 매 테스트 독립성 보장
     await ds.synchronize(true);
@@ -98,7 +105,8 @@ describe("잔액 차감 동시성 제어 - 전체 통합 (Integration)", () => {
 
     // [Then] 주문이 실제로 최소 1건이 생겼는지
     const allOrders = await orderRepo.find({
-      where: {}, // 전부
+      where: {},
+      relations: ["user"],
     });
     expect(allOrders.length).toBe(1);
     expect(allOrders[0].status).toBe("PAID");
@@ -160,6 +168,7 @@ describe("잔액 차감 동시성 제어 - 전체 통합 (Integration)", () => {
     // [Then] 주문이 실제로 최소 1건이 생겼는지
     const allOrders = await orderRepo.find({
       where: {}, // 전부
+      relations: ["user"],
     });
     expect(allOrders.length).toBe(1);
     expect(allOrders[0].status).toBe("PAID");
