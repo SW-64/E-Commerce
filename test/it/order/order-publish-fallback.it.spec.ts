@@ -1,4 +1,4 @@
-import { Test } from "@nestjs/testing";
+import { Test, TestingModule } from "@nestjs/testing";
 import { TypeOrmModule, getRepositoryToken } from "@nestjs/typeorm";
 import { DataSource, Repository } from "typeorm";
 
@@ -15,9 +15,11 @@ import { ProductEntity } from "../../../src/product/entities/product.entity";
 import { OutboxEntity } from "../../../src/order/adapter/out/outbox.entity";
 
 import { MESSAGE_PUBLISHER_PORT } from "../../../src/order/port/out/message-publisher.port";
+import { createItModule } from "../setup";
 
 describe("발행 실패 → Outbox 폴백 (Integration)", () => {
   let ds: DataSource;
+  let moduleRef: TestingModule;
   let authSvc: AuthService;
   let userSvc: UserService;
   let orderSvc: OrderService;
@@ -30,25 +32,9 @@ describe("발행 실패 → Outbox 폴백 (Integration)", () => {
       publish: jest.fn().mockRejectedValue(new Error("publish failed!")),
     };
 
-    const moduleRef = await Test.createTestingModule({
-      imports: [
-        TypeOrmModule.forRoot({
-          type: "sqlite",
-          database: ":memory:",
-          entities: [__dirname + "/../../../src/**/*.entity.{ts,js}"],
-          synchronize: true,
-          dropSchema: true,
-        }),
-        AuthModule,
-        UserModule,
-        OrderModule,
-      ],
-    })
-      .overrideProvider(MESSAGE_PUBLISHER_PORT) // 실패 목으로 교체
-      .useValue(failingPublisher)
-      .compile();
-
-    ds = moduleRef.get(DataSource);
+    const setup = await createItModule();
+    moduleRef = setup.moduleRef;
+    ds = setup.dataSource;
     authSvc = moduleRef.get(AuthService);
     userSvc = moduleRef.get(UserService);
     orderSvc = moduleRef.get(OrderService);
@@ -56,6 +42,12 @@ describe("발행 실패 → Outbox 폴백 (Integration)", () => {
     userRepo = moduleRef.get(getRepositoryToken(UserEntity));
     productRepo = moduleRef.get(getRepositoryToken(ProductEntity));
     outboxRepo = moduleRef.get(getRepositoryToken(OutboxEntity));
+  });
+  afterAll(async () => {
+    if (ds?.isInitialized) {
+      await ds.destroy(); // DB 커넥션 풀 닫기
+    }
+    await moduleRef.close(); // Nest 컨테이너 / 내부 타이머 종료
   });
 
   beforeEach(async () => {

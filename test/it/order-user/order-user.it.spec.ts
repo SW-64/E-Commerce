@@ -6,21 +6,29 @@ import { OrderService } from "../../../src/order/usecase/order.service";
 import { UserEntity } from "../../../src/user/entities/user.entity";
 import { ProductEntity } from "../../../src/product/entities/product.entity";
 import { AuthService } from "../../../src/auth/auth.service";
+import { TestingModule } from "@nestjs/testing";
 
 describe("충전 → 주문 잔액 흐름 (Integration)", () => {
   let ds: DataSource;
+  let moduleRef: TestingModule;
   let userSvc: UserService;
   let orderSvc: OrderService;
   let authSvc: AuthService;
 
   beforeAll(async () => {
-    const { moduleRef, dataSource } = await createItModule();
-    ds = dataSource;
+    const setup = await createItModule();
+    moduleRef = setup.moduleRef;
+    ds = setup.dataSource;
     userSvc = moduleRef.get(UserService);
     orderSvc = moduleRef.get(OrderService);
     authSvc = moduleRef.get(AuthService);
   });
-
+  afterAll(async () => {
+    if (ds?.isInitialized) {
+      await ds.destroy(); // DB 커넥션 풀 닫기
+    }
+    await moduleRef.close(); // Nest 컨테이너 / 내부 타이머 종료
+  });
   beforeEach(async () => {
     await ds.synchronize(true); // 모든 테이블 초기화
 
